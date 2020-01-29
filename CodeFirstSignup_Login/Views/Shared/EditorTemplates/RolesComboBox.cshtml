@@ -1,0 +1,3 @@
+﻿@using CodeFirstSignup_Login.ViewModel
+
+@Html.DropDownList("", AccountViewModel.GetAllRoles((int)ViewBag.RoleId), string.Empty, new { @class = "form-control" })

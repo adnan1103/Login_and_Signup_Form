@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CodeFirstApproachOnetoMany.Models.fee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.student.Std_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.feeamount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.student.Std_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.feeamount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.feeid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.feeid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.feeid })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,17 @@
+﻿@{
+	ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<p>Welcome <b>@WebSecurity.CurrentUserName</b> - <a href="@Url.Action("LogOut", "Accounts")">Log Out</a></p>
+
+<p>
+	@if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+	{
+		@Html.ActionLink("Register New User", "Registar", "Accounts") <span> | </span>
+	}
+
+	@Html.ActionLink("Change Password", "ChangePassword", "Accounts") <span> | </span>
+	@Html.ActionLink("User Profile", "UserProfile", "Accounts")
+</p>

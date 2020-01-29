@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<CodeFirstSignup_Login.Models.Employee>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+	ViewBag.Title = "Employees";
+}
+
+<h2>Employees</h2>
+
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="col-sm-12">
+	<div class="row">
+		<div class="col-sm-6">
+			@using (Html.BeginForm("Index", "Employees", FormMethod.Post))
+			{
+				<span class="d-inline-block">Show</span>
+				<select id="selectedItem" name="selectedItem">
+					<option>3</option>
+					<option>5</option>
+					<option>10</option>
+				</select>
+				<span>entries</span>
+			}
+		</div>
+		<div class="col-sm-6">
+			@using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+			{
+				<p>
+					Find by name/department: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+					<input type="submit" value="Search" />
+				</p>
+			}
+		</div>
+	</div>
+</div>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.ActionLink("Department Name", "Index", new { sortOrder = ViewBag.DepartmentSortParm, currentFilter = ViewBag.CurrentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Employee Email", "Index", new { sortOrder = ViewBag.EmailSortParm, currentFilter = ViewBag.CurrentFilter })
+		</th>
+		<th>
+			@Html.ActionLink("Employee Salary", "Index", new { sortOrder = ViewBag.SalarySortParm, currentFilter = ViewBag.CurrentFilter })
+		</th>
+		<th></th>
+	</tr>
+
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Department.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EmployeeName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EmployeeEmail)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EmployeeSalary)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+				@Html.ActionLink("Details", "Details", new { id = item.ID }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.ID })
+			</td>
+		</tr>
+	}
+
+</table>
+
+<br />
+Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) to @Model.PageSize of @Model.PageCount entries
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+	new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, selectedItem = ViewBag.selectedItem }))
+
+<script>
+    $(document).ready(function() {
+        $("#selectedItem").change(function() {
+            var selectedItem = "";
+            $("#selectedItem option:selected").each(function() {
+                selectedItem += $(this)[0].value;
+        });
+            var url = "/Employees/Index/" + selectedItem;
+        $.post(url, function(data) {
+            // do something if necessary
+        });
+    });
+});
+</script>
